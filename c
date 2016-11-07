@@ -1,2 +1,6 @@
-c en bug10
+c en bug11
+
+
 otra línea
+   espacios     
+final
