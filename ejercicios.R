@@ -142,21 +142,15 @@ Nsiniestros <- rpois(1,1000)
 coste <- sum(rlnorm(Nsiniestros,meanlog=3,sdlog=3))
 coste
 res <- replicate(10000,sum(rlnorm(rpois(1,1000),meanlog=3,sdlog=3)))
-hist(res,breaks=100)
-?hist
-
-ingresos <- sum(rlnorm(rpois(1,1000)*0.01,meanlog=3,sdlog=3))
-res.ing <- replicate(10000,sum(rlnorm(rpois(1,1000)*0.01,meanlog=3,sdlog=3)))
-hist(res.ing,breaks=1000)
+hist(res,breaks=1000,xlim=c(0,1e7))
 
 #6.1
 #Repite el ejercicio anterior para una empresa que vende cachivaches por internet.
 #Las visitas son Poisson de parámetro 1000, el 1% de los clientes compra y, cuando compran, el importe es lognormal de parámetros mu = 3 y sigma = 3.
 
-v <- rep(0:1, c(23e6*(1-0.1891),23e6*0.1891))
-?rep
-res.enc <- replicate(100000,mean(sample(v,90000)))
-hist(res.enc,breaks=50)
+ingresos <- sum(rlnorm(rpois(1,1000)*0.01,meanlog=3,sdlog=3))
+res.ing <- replicate(10000,sum(rlnorm(rpois(1,1000)*0.01,meanlog=3,sdlog=3)))
+hist(res.ing,breaks=5000,xlim=c(0,5e5))
 
 ##### Ejercicio 7
 #En un país viven 47M de habitantes; de ellos, 23M pertenecen a la población activa. Se hace una encuesta y se extrae una muestra de 180000.
@@ -168,8 +162,9 @@ hist(res.enc,breaks=50)
 #Saldrán porcentajes similares pero no exactamente iguales al 18.91.
 #Mide esa dispersión, que debería ser (parecido a, en una aproximación burda) el error de la encuesta.
 
-
-
+v <- rep(0:1, c(23e6*(1-0.1891),23e6*0.1891))
+res.enc <- replicate(100000,mean(sample(v,90000)))
+hist(res.enc,breaks=50)
 
 ##### Ejercicio 8
 #Toma un texto largo en Español (p.e., el Quijote) y:
