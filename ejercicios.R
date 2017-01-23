@@ -27,35 +27,9 @@ tabla <- function(x){
 
 tabla(texto)
 
-##### Ejercicio 2
-
-#Crea un paquete de R con dos o tres funciones tontas.
-#Una de ellas tiene que llamarse suma.dos.numeros y tiene que aceptar dos parámetros: los números que quieres sumar. Luego súbelo a Github.
-
-library(devtools)
-create("repo")
-
-
-install_github('mescolano/master2016/ejerciciosR')
-
-git init
-
-###### Ejercicio 3
+###### Ejercicio 2
 
 #Crea una función que admita como argumento dos cadenas de texto y compruebe si la una es un anagrama de la otra.
-
-anagrama <- function(a,b){
-  a.sorted <- toString(sort(strsplit(a,"")[[1]]))
-  b.sorted <- toString(sort(strsplit(b,"")[[1]]))
-  a.sorted == b.sorted
-}
-
-#Más compacto
-anagrama <- function(a,b){
-  toString(sort(strsplit(a,"")[[1]])) == toString(sort(strsplit(b,"")[[1]]))
-}
-
-#Puro DRY
 anagrama <- function(a, b){
   foo <- function(x) toString(sort(strsplit(x, "")[[1]]))
   foo(a) == foo(b)
@@ -65,7 +39,7 @@ anagrama('amor','mora')
 anagrama('casa','saco')
 anagrama('casa','casaca')
 
-##### Ejercicio 4
+##### Ejercicio 3
 #Crea una función que dado la lista de nombres de ficheros tales como
 
 a <- c("ventas_norte_20161225.txt", "propuestas_sur_20161211.csv")
@@ -82,7 +56,7 @@ lista <- function(x){
 
 lista(a)
 
-##### Ejercicio 5
+##### Ejercicio 4
 #Baja datos en Excel de http://www.geoportalgasolineras.es/ y léelos en R.
 #Puede que quieras exportarlos a CSV o investigar cómo leer Excel directamente a R.
 
@@ -91,12 +65,12 @@ datos <- read.delim2('C:/Users/Marcos/Documents/Master_Data_Science/R/preciosEES
 colnames(datos)
 head(datos)
 
-##5.1
+##4.1
 #Limpia lo que tengas que limpiar y crea un diagrama de cajas: precios (del tipo de combustible que quieras) por comunidad autónoma.
 
 boxplot(datos$Precio.gasolina.95 ~ datos$Provincia,las=2)
 
-##5.2
+##4.2
 #Usando los datos anteriores, haz un diagrama de barras mostrando el número de gasolineras de las tres marcas más populares y una cuarta con el resto.
 
 por.marca <- summary(datos$Rótulo)[1:3]
@@ -106,7 +80,7 @@ barplot(unlist(por.marca),ylab='Número de EESS en España')
 
 head(datos[order(-datos$Precio.gasolina.95),],3)
 
-##5.3
+##4.3
 #Construye a partir de la anterior una tabla que contenga las tres gasolineras más caras por provincia.
 
 #Con data.table
@@ -120,7 +94,7 @@ top3P <- by(datos.ord,datos.ord$Provincia,head,n=3)
 top3P.df <- Reduce(rbind,by(datos.ord,datos.ord$Provincia,head,n=3))
 top3P.df[,c("Provincia","Precio.gasolina.95")]
 
-##5.4
+##4.4
 #Pinta la latitud y longitud de las gasolineras (con un diagrama de dispersión).
 #Usa un filtro (sobre las coordenadas, no sobre la columna de CCAA) para excluir las de Canarias y repite el ejercicio.
 
@@ -132,7 +106,7 @@ plot(datos.pen$Longitud,datos.pen$Latitud)
 top100 <- head(datos[order(-datos$Precio.gasolina.95),],100)
 plot(top100$Longitud,top100$Latitud)
 
-###### Ejercicio 6
+###### Ejercicio 5.1
 #En una empresa de seguros, entran siniestros de acuerdo con una distribución de Poisson de parámetro 1000 (al mes).
 #Cada siniestro le cuesta a la empresa una cantidad que es lognormal de parámetros mu = 3 y sigma = 3.
 #Crea una función que calcule una simulación del coste mensual de los siniestros.
@@ -144,7 +118,7 @@ coste
 res <- replicate(10000,sum(rlnorm(rpois(1,1000),meanlog=3,sdlog=3)))
 hist(res,breaks=1000,xlim=c(0,1e7))
 
-#6.1
+#5.2
 #Repite el ejercicio anterior para una empresa que vende cachivaches por internet.
 #Las visitas son Poisson de parámetro 1000, el 1% de los clientes compra y, cuando compran, el importe es lognormal de parámetros mu = 3 y sigma = 3.
 
@@ -152,7 +126,7 @@ ingresos <- sum(rlnorm(rpois(1,1000)*0.01,meanlog=3,sdlog=3))
 res.ing <- replicate(10000,sum(rlnorm(rpois(1,1000)*0.01,meanlog=3,sdlog=3)))
 hist(res.ing,breaks=5000,xlim=c(0,5e5))
 
-##### Ejercicio 7
+##### Ejercicio 6
 #En un país viven 47M de habitantes; de ellos, 23M pertenecen a la población activa. Se hace una encuesta y se extrae una muestra de 180000.
 #De ellos, 90000 pertenecen a la población activa (trabajan o quieren trabajar, tengan o no empleo).
 #Resulta que de ellos, 17019 dicen estar en el paro (tasa de paro del 18.91%).
@@ -166,7 +140,7 @@ v <- rep(0:1, c(23e6*(1-0.1891),23e6*0.1891))
 res.enc <- replicate(100000,mean(sample(v,90000)))
 hist(res.enc,breaks=50)
 
-##### Ejercicio 8
+##### Ejercicio 7
 #Toma un texto largo en Español (p.e., el Quijote) y:
 
 #Ponlo en minúsculas.
